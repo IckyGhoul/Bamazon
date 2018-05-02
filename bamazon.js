@@ -21,6 +21,13 @@ connection.connect(function(err){
 })
 
 function makePurchase(){
+    connection.query('SELECT * FROM products',function(err,res){
+        if(err) throw err
+        for(var x = 0 ; x < res.length; x++){
+            console.log('\n product: '+res[x].product_name) 
+            console.log('id: ' + res[x].item_id)
+        }
+    })
     inquirer.prompt([
         {
             type:'input',
@@ -31,7 +38,7 @@ function makePurchase(){
         connection.query('SELECT * FROM products',function(err,res){
             var selectedItemID = answer.checkinventory;
             var selectedItem = parseFloat(answer.checkinventory) - 1
-            console.log(res[selectedItem])
+           
             if(answer.checkinventory > res.length){
                 console.log('sorry we do not have any products with an item ID of ' + answer.checkinventory + ".")
                 makePurchase();
